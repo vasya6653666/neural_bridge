@@ -1,0 +1,7 @@
+{
+  "repo": "jfrog/jfrog-skills",
+  "pin": "v0.43.0",
+  "paths": [
+    "skills"
+  ]
+}

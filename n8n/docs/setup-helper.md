@@ -1,0 +1,242 @@
+# Setup and maintenance
+
+The helper registers a public OAuth client and configures a native NeuralBridge MCP
+connection. NeuralBridge owns browser login, consent, PKCE, token storage, and refresh.
+For installation, see the [README](../README.md). Current validation and release
+gates live only in the [release checklist](release-checklist.md).
+
+## Commands
+
+Read this section and Authorization before setting up a connection. Obtain the
+instance URL from the user or verified existing configuration; never guess it.
+Accept its base URL, preserving deployment paths, or the Server URL under
+**n8n > Settings > Instance-level MCP > Connection details > Connect**. An
+owner/admin must enable MCP; the helper does not change that setting.
+
+Every URL below is a placeholder. Substitute the user's URL before running a
+command; if none is known, ask for it. Remote URLs require HTTPS; HTTP is allowed
+only on loopback. Discovery requires a 401 resource-metadata challenge and one
+same-origin OAuth server advertising public clients, S256 PKCE and refresh.
+Cross-origin identity providers and redirects are unsupported.
+
+Check `node --version`: Node.js 22+ must be available in NeuralBridge's environment.
+Explain a missing runtime; do not install one automatically. Setup accepts all
+local NeuralBridge IDE versions. No version is listed as tested yet, so every
+detected or undetected version shows a warning and setup continues. The helper
+reads the version from the installed application (`%LOCALAPPDATA%\Programs\NeuralBridge`
+on Windows, `/Applications/NeuralBridge.app` on macOS, both also under the name
+`NeuralBridge IDE`) or from `neuralbridge --version` in PATH (Linux). If detection
+fails, no override is needed. For accurate diagnostics, you may pass the actual
+Help > About version with `--neuralbridge-version`. The supported n8n minimum is 2.43.7.
+
+For an installed power, resolve `scripts/setup.mjs` relative to the installed
+connect-n8n skill. Quote its absolute path and user inputs for the shell. Do not
+assume `${PLUGIN_ROOT}` is set or that the workspace contains the power source.
+No npm install is needed:
+
+```sh
+node "<absolute installed path>/connect-n8n/scripts/setup.mjs" configure --url "<the user's n8n URL>" --json
+```
+
+The remaining examples use checkout-relative paths; substitute the installed
+helper's absolute path when working from an installed power. From a checkout:
+
+```sh
+node skills/connect-n8n/scripts/setup.mjs configure --url "<your n8n URL>"
+```
+
+Default user scope writes `~/.neuralbridge/settings/mcp.json`, shared across projects;
+explain that scope to the user. For only the selected project's
+`.neuralbridge/settings/mcp.json`, pass both flags; `--scope workspace` alone is rejected:
+
+```sh
+node skills/connect-n8n/scripts/setup.mjs configure --url "<your n8n URL>" --scope workspace --workspace "<absolute project path>"
+```
+
+`--workspace` on its own does not change the scope. It checks project overrides
+while still configuring user scope. Inspect agent-specific overrides in NeuralBridge.
+Registration metadata lives in `~/.neuralbridge/n8n-power/connections.json` without tokens.
+Use `--name` for a requested friendly server name. Keep commands short; omit
+`--workspace` unless selecting workspace scope or checking project overrides.
+
+Keep the same URL, optional `--name`, scope, and workspace on later commands:
+
+```sh
+node skills/connect-n8n/scripts/setup.mjs doctor --url "<your n8n URL>" --json
+node skills/connect-n8n/scripts/setup.mjs configure --url "<your n8n URL>" --dry-run --json
+node skills/connect-n8n/scripts/setup.mjs repair --url "<your n8n URL>" --new-registration
+node skills/connect-n8n/scripts/setup.mjs remove --url "<your n8n URL>"
+```
+
+Doctor and dry-run perform discovery but do not register clients or write files.
+They cannot verify NeuralBridge's tokens. Configure reuses saved registrations and leaves
+unchanged configuration bytes alone. Verify access with an actual MCP read.
+
+## Authorization
+
+On `configured_awaiting_authorization`, identify the configured server and direct
+the user to **NeuralBridge > MCP Servers > Authenticate**. NeuralBridge owns sign-in, consent,
+PKCE and tokens. Never request passwords, copy authorization codes, or implement
+login/consent through REST.
+
+NeuralBridge may request all advertised scopes despite configured scopes. On the
+n8n consent page, choose **Custom** and review workflow read/write/execute plus
+execution read for build/run/debug. Respect a read-only selection and request
+more access only when the task needs it. The helper does not constrain the
+browser request. After consent, repeat the connection skill's read-only preflight.
+
+## Troubleshooting
+
+- **No output with exit 0:** older helpers could silently skip execution when
+  launched through a symlink (including macOS `/tmp` → `/private/tmp`). Update
+  the installed power and run the helper with `--help` to verify its entry point.
+  The current helper resolves the launch path before running. Do not infer a
+  terminal failure from empty output alone.
+- **Corrupted terminal command:** long single-line commands have rendered
+  incorrectly in NeuralBridge. Give the user the exact short command to run in their
+  terminal and ask for its JSON result. Do not write a wrapper script.
+- **No tools:** inspect the endpoint, connection error and authorization state.
+  Check reachability from NeuralBridge; localhost in a remote session names that remote
+  machine. The helper targets local IDE sessions.
+- **Network, HTML or 404 response:** check the URL, deployment path, reverse proxy
+  and instance MCP setting. Do not infer the cause from status alone or try
+  another host.
+- **Expired authorization page:** close it, use Retry then Authenticate in NeuralBridge.
+  Complete a fresh request within the helper's five-minute connection timeout;
+  never reuse the stale authorization URL.
+- **401 after a working connection:** let NeuralBridge refresh or re-authenticate, then
+  verify a read. Do not immediately create another client.
+- **Invalid client:** if its server-side registration was removed, use
+  `repair --new-registration` and authenticate again. Review unused grants in
+  n8n; the helper does not revoke them.
+  If NeuralBridge still opens authorization for the previous client after repair, save
+  your work and run **Developer: Reload Window** before authenticating again.
+  Do not create another registration while NeuralBridge is still using stale settings.
+- **Callback collision:** a listening port may belong to NeuralBridge. For a confirmed
+  conflict, use `repair --callback-port 5694` with an available allowed port,
+  then authenticate the replacement client. Do not weaken instance callback policy.
+  If two NeuralBridge windows share the same user-scoped connection, changing its port
+  changes both windows and can repeat the collision. Complete setup with one
+  window. For concurrent projects, configure separate workspace-scoped
+  registrations with distinct names and callback ports. Verify each replacement
+  with a native read, using one window at a time.
+  NeuralBridge merges user and workspace settings, so distinct names leave the original
+  user entry active. After verifying the replacements, remove only the old
+  helper-managed user entry using its original URL and server name:
+
+  ```sh
+  node skills/connect-n8n/scripts/setup.mjs remove --url "<your n8n URL>" --name "<old user server name>" --scope user
+  ```
+
+  This removes that inherited connection from every project; migrate any other
+  projects that still need it first. Preserve unrelated entries and follow
+  [configuration safety](#configuration-safety-and-removal) if removal reports a
+  conflict. Reload the affected NeuralBridge windows and verify native reads through
+  both workspace connections while the windows are open together.
+- **Uncertain registration:** the request may have reached n8n. Consult the
+  administrator before explicitly retrying with `repair --new-registration`.
+  An unconsented registration may not appear in Connected clients.
+- **Config conflict:** the entry was created elsewhere or edited after setup.
+  Preserve it and reconcile the changes, or choose a different name.
+- **Browser success followed by missing `client_id`:** inspect whether NeuralBridge is
+  using a different entry for the same instance (for example a manually added
+  one). Public-client setup supplies an ID without a secret. Do not assume
+  consent failed or repeatedly restart authorization.
+- **Missing tools or workflows:** check n8n version, features/license, builder
+  settings, OAuth grant, user/project access and workflow exposure. Use n8n
+  2.43.7 or later for the supported OAuth and workflow baseline.
+  Reauthorization cannot enable features or grant a project role. Search previews
+  can include workflows not Available in MCP; follow returned access errors
+  before inspecting or running them. Missing tools do not prove an empty instance.
+- **Missing tool schema:** inspect the native connection's advertised schema; if required fields are
+  absent, stop that operation rather than guessing arguments. For repeated
+  missing `pinData` on `test_workflow`, follow the connection skill's guarded
+  manual-execution fallback. Current acceptance and limits are recorded in the
+  release checklist.
+
+NeuralBridge keys stored OAuth credentials by the server URL and headers, not by the
+configured client ID. The helper adds a nonsecret `X-N8N-NeuralBridge-Connection`
+header derived from that ID so replacement registrations use a separate grant.
+Keep it while NeuralBridge keys credentials this way. It requires no n8n changes.
+
+## Configuration safety and removal
+
+JSONC comments and unrelated entries are preserved. Writes use restricted
+backups, locks, and atomic replacement; intervening edits cause a conflict.
+Backups may contain other entries' secrets. After a crash, verify no helper is
+running before removing a stale `.lock` file. Settings larger than 1 MiB are
+rejected before replacement.
+
+Repair requires fresh consent and does not revoke the old grant. Removal deletes
+only an unchanged managed entry and its registration record; it does not erase
+NeuralBridge's token cache or revoke OAuth access. Use **n8n > Settings > Instance-level
+MCP > Connected clients** for revocation.
+
+Check for duplicate entries for the same instance after updates. Preserve
+existing user-created OAuth and token connections. This power ships no root
+`mcp.json`; the power's own configuration is not the native connection setup path.
+
+If the user explicitly chooses MCP access-token authentication, use the
+[README fallback](../README.md#token-fallback). Keep tokens out of chat and source
+files. Do not silently switch authentication methods or use REST for workflow
+operations.
+
+## Development
+
+```sh
+npm ci --ignore-scripts
+npm run build
+npm run check
+```
+
+Edit `src/setup/`; regenerate the committed script and third-party notice. The
+bundle includes `jsonc-parser` to preserve settings without an installation step
+for users. GitHub marks it as generated so reviews can focus on authored source.
+Tests use temporary directories and disposable loopback servers, not real n8n
+accounts. `npm run check` verifies bundle reproducibility, packaging and
+documented commands.
+
+### Shared skills
+
+`shared-skills.lock.json` pins the full commit in `n8n-io/skills`. Sync reads its
+Git blobs, applies [local corrections](../patches/shared-skills.patch), and writes to
+`skills/connect-n8n/references/n8n-skills/`. All 14 skills and their references
+are bundled so cross-skill links work. NeuralBridge loads only the three local entry
+skills directly; they read the shared router and task-specific files on demand.
+Upstream hooks and plugin runtimes are not installed or executed.
+The connection skill defines when to load or reuse guidance already in context;
+setup and recovery sections here are read only when needed. Reusing instructions
+does not replace current execution evidence or per-operation safety checks.
+
+Maintainers need Git and network access for these commands:
+
+```sh
+npm run skills:sync
+npm run skills:check
+npm run skills:sync -- --commit "<full upstream commit SHA>"
+```
+
+Sync replaces only the imported directory; the optional commit also updates the
+lock. Check compares every imported file against the locked Git blobs plus the
+same patch; all unpatched files and the license remain byte-for-byte upstream.
+Executable or linked upstream entries stop the import for review instead of
+silently changing file modes. A failed lock replacement rolls back the snapshot;
+after an interrupted process, rerun sync to restore the atomically locked commit.
+It is run separately; `npm run check` validates references and tests locally
+without fetching upstream. Keep NeuralBridge behavior in the entry skills. For shared
+content fixes, edit `patches/shared-skills.patch` and regenerate the snapshot;
+do not leave untracked edits in the generated files. A conflicting or already
+applied patch stops sync before it changes the snapshot or lock. When upstream
+fixes an issue, remove the corresponding patch hunks and review the result.
+Commit the patch, lock and generated files together; revert them together to roll
+back. No commands push to or modify `n8n-io/skills`.
+
+In the NeuralBridge powers repository the shared-skills update is run by hand:
+sync to the new commit, run `npm run check`, increment the power's patch version
+and review the result. No update is merged automatically.
+
+Review upstream changes and test affected NeuralBridge behavior before merging updates.
+The shared references mention other agents' Skill tools and hooks; the connection
+skill supplies NeuralBridge's file-loading instructions. Snapshot and unit tests verify
+packaging, not agent behavior. Clean installed-power build/run/debug acceptance
+for this adapter remains a release gate in the existing checklist.

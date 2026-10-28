@@ -1,0 +1,41 @@
+# NeuralBridge
+
+Файлы этой папки, изменённые NeuralBridge:
+
+- `.gitignore`
+- `CONTRIBUTING.md`
+- `POWER.md`
+- `README.md`
+- `VENDOR.md`
+- `package.json`
+- `scripts/bootstrap.sh`
+- `scripts/gen-steering.mjs`
+- `scripts/install-neuralbridge.mjs`
+- `scripts/install-scripts.mjs`
+- `scripts/validate.mjs`
+- `scripts/validate.test.mjs`
+- `scripts/verify-install.ps1`
+- `scripts/verify-install.sh`
+- `skills/jfrog-ai-catalog/references/installing-skills.md`
+- `skills/jfrog-ai-catalog/references/managing-installed-skills.md`
+- `skills/jfrog-init/SKILL.md`
+- `skills/jfrog-init/references/how-to-ask-user.md`
+- `skills/jfrog-init/references/mcp-plugin-config.md`
+- `skills/jfrog-init/references/project-picker.md`
+- `skills/jfrog-init/scripts/jfrog-detect-all.mjs`
+- `skills/jfrog-init/scripts/jfrog-reinstall-jfrog-plugin.mjs`
+- `skills/jfrog-init/scripts/jfrog-resolve-mcp-config.mjs`
+- `skills/jfrog-mcp-management/SKILL.md`
+- `skills/jfrog-mcp-management/references/harness-common.md`
+- `skills/jfrog-mcp-management/references/harness-neuralbridge.md`
+- `skills/jfrog-mcp-management/references/persisting-env-vars.md`
+- `steering/jfrog-ai-catalog-references.md`
+- `steering/jfrog-ai-catalog.md`
+- `steering/jfrog-init-references.md`
+- `steering/jfrog-init.md`
+- `steering/jfrog-mcp-management-references.md`
+- `steering/jfrog-mcp-management.md`
+- `steering/jfrog-references.md`
+- `steering/jfrog-setup-package-managers-references.md`
+- `steering/jfrog-setup-package-managers.md`
+- `steering/jfrog.md`

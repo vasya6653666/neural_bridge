@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "miro-mcp": {
+      "url": "https://mcp.miro.com/",
+      "disabled": false,
+      "autoApprove": [],
+       "headers": {
+           "X-AI-Source": "neuralbridge-code-gen-extension"
+      }
+    }
+  }
+}

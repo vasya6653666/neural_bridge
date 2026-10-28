@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "orca-security",
+  "version": "1.0.0",
+  "description": "Investigate cloud security risk with Orca Security: triage alerts, explore assets and attack paths, query cloud inventory, track compliance, and search cloud detection events across AWS, Azure, GCP, and more.",
+  "author": {
+    "name": "Orca Security",
+    "email": "support@orca.security",
+    "url": "https://orca.security"
+  },
+  "keywords": [
+    "orca",
+    "orca security",
+    "orca-security",
+    "cloud security",
+    "cspm",
+    "cnapp",
+    "attack path",
+    "security alerts"
+  ],
+  "homepage": "https://orca.security/mcp-server/",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "MIT"
+}

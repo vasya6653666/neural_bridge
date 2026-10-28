@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "figr",
+  "version": "1.1.0",
+  "description": "Figr MCP — create and edit Figr canvases, design systems, and org skills from NeuralBridge, or port screens into your repo. https://mcp.figr.design/mcp",
+  "author": {
+    "name": "Figr",
+    "email": "hi@figr.design",
+    "url": "https://figr.design"
+  },
+  "keywords": [
+    "figr",
+    "mcp",
+    "design",
+    "ui",
+    "canvas",
+    "prototype",
+    "wireframe",
+    "design-system"
+  ],
+  "homepage": "https://docs.figr.design/docs/design-intelligence/figr-mcp",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "MIT"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "forge-skills",
+  "version": "0.1.0",
+  "description": "Forge app builder skill bundle with Forge MCP configuration for Atlassian Forge workflows.",
+  "author": {
+    "name": "Atlassian Labs"
+  },
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pillir-flow": {
+      "url": "https://flow.pillir.ai/mcp/sse",
+      "headers": {
+        "X-FLOW-API-KEY": "${PILLIR_API_KEY}"
+      }
+    }
+  }
+}

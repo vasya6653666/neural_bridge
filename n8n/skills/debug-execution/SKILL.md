@@ -1,0 +1,47 @@
+---
+name: debug-execution
+description: "Diagnose an n8n workflow that failed, produced the wrong result, or stopped running. Use for execution errors, unexpected output, intermittent failures, and workflow repairs."
+compatibility: Requires Node.js 22+, local NeuralBridge IDE with Agent Plugins support, and n8n 2.43.7+ with instance-level MCP enabled. Diagnosis requires workflow and execution read access; repairs and testing also require workflow builder tools and workflow write/execute access. All NeuralBridge versions are accepted; untested or undetected versions warn and continue.
+metadata:
+  author: n8n
+  version: "1.0.0"
+---
+
+# Debug executions from NeuralBridge
+
+Apply [connect-n8n](../connect-n8n/SKILL.md), including its loading policy and
+execution checks. Keep investigation and repair on that verified connection.
+Read the [shared router](../connect-n8n/references/n8n-skills/skills/using-n8n-skills-official/SKILL.md)
+and [debugging guide](../connect-n8n/references/n8n-skills/skills/n8n-debugging-official/SKILL.md)
+with NeuralBridge's file-reading tool each time this entry is loaded, before workflow
+investigation. Reading this entry does not load those files. Do not skip these
+two reads because an earlier turn or a context summary says they were loaded.
+After these reads, reuse their contents for subsequent operations until this
+entry is loaded again or context compaction removes them.
+
+## Ground the shared investigation in the actual run
+
+- Use the user's execution or search retained runs with `search_workflow_executions`
+  for the workflow and reported time before requesting another run. Filter failures
+  for execution errors; include successful runs for incorrect output. If it stopped
+  running, check the last run. This replaces the shared shortcut to request a rerun
+  when no execution ID is supplied.
+- Compare against the workflow version saved with that execution; the current
+  draft may differ. Use available history and diffs before editing. If execution
+  data has expired, state which evidence is missing.
+
+## Apply a repair
+
+Before editing or testing, verify that the connection advertises the required
+workflow builder and execution tools and has the workflow read/write/execute
+and execution read permissions needed for the requested operation. If access is
+missing, continue only with permitted read-only diagnosis and explain the access
+needed for the repair. Do not broaden grants or switch connections to bypass it.
+
+Read `update_workflow`'s advertised operation schema; these objects are not
+Workflow SDK factory calls. Follow connect-n8n's missing-schema handling.
+For an edit or test, apply [workflow lifecycle](../connect-n8n/references/n8n-skills/skills/n8n-workflow-lifecycle-official/SKILL.md),
+loading it if absent from context, and follow the connection's execution checks.
+
+Workflow execution tools do not expose standalone Agent conversations, except
+for workflows those Agents ran as tools.

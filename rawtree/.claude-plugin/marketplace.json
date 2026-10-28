@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "rawtree",
+  "description": "RawTree plugins for Claude Code",
+  "owner": {
+    "name": "RawTree",
+    "email": "teamrt@rawtree.com"
+  },
+  "plugins": [
+    {
+      "name": "rawtree",
+      "source": "./",
+      "description": "Ingest JSON events, run read-only SQL, and inspect logs in RawTree via the hosted MCP server and the RawTree skill.",
+      "category": "database",
+      "homepage": "https://rawtree.com"
+    }
+  ]
+}

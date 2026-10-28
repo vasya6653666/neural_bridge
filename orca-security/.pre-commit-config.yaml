@@ -1,0 +1,51 @@
+exclude: '^_ee-tooling/|\.yarn'
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.3.0
+    hooks:
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-symlinks
+      - id: detect-private-key
+
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        files: \.(yaml|yml)$
+        types: [file, yaml]
+        entry: yamllint --strict -c yamllint-config.yaml
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.3
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - prettier
+          - "@spotify/prettier-config"
+
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck
+        files: \.(ba|z|fish|ksh|sh)$
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.38.2
+    hooks:
+      - id: check-jsonschema
+        name: Validate plugin.json against Agent Plugins schema
+        files: ^plugin\.json$
+        args:
+          - --schemafile
+          - https://agent-plugins.org/schemas/1.0.0/plugin.schema.json
+      - id: check-jsonschema
+        name: Validate mcp.json against Agent Plugins schema
+        files: ^mcp\.json$
+        args:
+          - --schemafile
+          - https://agent-plugins.org/schemas/1.0.0/mcp.schema.json

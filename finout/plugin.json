@@ -1,0 +1,42 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "finout",
+  "version": "0.1.0",
+  "description": "Query and analyze cloud costs with Finout — spend breakdowns, cost anomalies, waste and rightsizing recommendations, budgets and forecasts, unit economics, and tag coverage across AWS, Azure, GCP, Kubernetes, and SaaS.",
+  "author": {
+    "name": "Finout",
+    "url": "https://www.finout.io"
+  },
+  "homepage": "https://www.finout.io",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "finout",
+    "finops",
+    "cloud cost",
+    "cost analysis",
+    "cost anomaly",
+    "cost optimization",
+    "waste",
+    "rightsizing",
+    "idle resources",
+    "budget",
+    "forecast",
+    "savings plan",
+    "reserved instances",
+    "unit economics",
+    "cost allocation",
+    "showback",
+    "chargeback",
+    "tag coverage",
+    "virtual tags",
+    "aws cost",
+    "azure cost",
+    "gcp cost",
+    "kubernetes cost",
+    "datadog cost",
+    "snowflake cost",
+    "cloud spend",
+    "cloud bill"
+  ]
+}

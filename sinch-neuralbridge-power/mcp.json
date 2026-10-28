@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "sinch": {
+      "command": "npx",
+      "args": ["-y", "@sinch/mcp"],
+      "env": {
+        "PROJECT_ID": "${PROJECT_ID}",
+        "KEY_ID": "${KEY_ID}",
+        "KEY_SECRET": "${KEY_SECRET}",
+        "CONVERSATION_APP_ID": "${CONVERSATION_APP_ID}",
+        "CONVERSATION_REGION": "${CONVERSATION_REGION}",
+        "DEFAULT_SMS_ORIGINATOR": "${DEFAULT_SMS_ORIGINATOR}",
+        "APPLICATION_KEY": "${APPLICATION_KEY}",
+        "APPLICATION_SECRET": "${APPLICATION_SECRET}",
+        "MAILGUN_API_KEY": "${MAILGUN_API_KEY}",
+        "MAILGUN_DOMAIN": "${MAILGUN_DOMAIN}",
+        "MAILGUN_SENDER_ADDRESS": "${MAILGUN_SENDER_ADDRESS}"
+      }
+    },
+    "sinch-docs": {
+      "type": "http",
+      "url": "https://developers.sinch.com/mcp"
+    }
+  }
+}

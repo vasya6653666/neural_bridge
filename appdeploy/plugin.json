@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "appdeploy",
+  "version": "1.0.0",
+  "description": "AppDeploy lets you create and publish real web apps directly from a NeuralBridge conversation. Describe what you want, and AppDeploy turns it into a live public app.",
+  "author": {
+    "name": "FreeBraavos LTD.",
+    "url": "https://appdeploy.ai"
+  },
+  "homepage": "https://appdeploy.ai",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "MIT",
+  "keywords": [
+    "deploy",
+    "deployment",
+    "publish",
+    "hosting",
+    "appdeploy",
+    "web app",
+    "live url",
+    "full-stack",
+    "backend"
+  ]
+}

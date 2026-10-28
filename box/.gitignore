@@ -1,0 +1,9 @@
+.claude/*
+!.claude/settings.json
+.cursor/
+.neuralbridge/
+.DS_Store
+*.swp
+*.swo
+*~
+.env

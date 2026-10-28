@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "katalon-prod-mcp": {
+      "url": "https://platform.katalon.io/mcp"
+    }
+  }
+}

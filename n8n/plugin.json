@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "n8n-workflow-dev",
+  "version": "1.0.2",
+  "description": "Build, run, and debug n8n workflows inside NeuralBridge against your own instance.",
+  "author": {
+    "name": "n8n",
+    "url": "https://n8n.io"
+  },
+  "keywords": [
+    "n8n",
+    "n8n workflows",
+    "n8n MCP",
+    "workflow debugging",
+    "webhook",
+    "scheduled job"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://docs.n8n.io",
+  "repository": "https://github.com/vasya6653666/neural_bridge"
+}

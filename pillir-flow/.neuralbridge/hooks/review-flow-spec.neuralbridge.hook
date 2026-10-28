@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "name": "Review Flow Spec",
+  "description": "Validate the generated Flow spec against enterprise best practices before deployment",
+  "version": "1",
+  "when": { "type": "userTriggered" },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Review the current Flow spec for missing requirements, unmapped integrations, and deployment readiness. Flag any gaps before publishing."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pointfive": {
+      "url": "https://mcp.pointfive.co/mcp",
+      "headers": {
+        "Authorization": "Bearer ${POINTFIVE_API_TOKEN}"
+      }
+    }
+  }
+}

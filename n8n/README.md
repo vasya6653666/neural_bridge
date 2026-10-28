@@ -1,0 +1,127 @@
+# n8n Workflow Dev for NeuralBridge
+
+Build, run, and debug [n8n](https://n8n.io) workflows using the routes and types
+in your editor workspace. The power connects to your own n8n instance through
+its built-in MCP server. Workflows remain editable and runnable without NeuralBridge.
+
+The power's identifier is `n8n-workflow-dev`. The helper's automated tests pass
+against disposable loopback servers; a live OAuth sign-in and native workflow
+read in NeuralBridge IDE has not been recorded yet. See the
+[release checklist](docs/release-checklist.md) for the acceptance gates and known limitations.
+
+## Requirements
+
+- **NeuralBridge IDE**, in a local session. Setup accepts all versions, including
+  future versions and installations where the version cannot be detected. No
+  version is listed as tested yet, so setup shows a warning and continues.
+- **Node.js 22+**, available to commands run by NeuralBridge.
+- **n8n 2.43.7+** is the supported minimum, the oldest released self-hosted
+  version on which the power's maintainers recorded public OAuth and workflow
+  acceptance. Earlier versions may work but are outside this baseline.
+- An owner/admin must enable **Settings > Instance-level MCP**. Workflow builder
+  tools must also be enabled; self-hosted admins can disable them with
+  `N8N_MCP_BUILDER_ENABLED=false`.
+- Existing workflows need **Available in MCP** enabled and appropriate user
+  access for inspection, execution, or editing. Search previews may include
+  workflows that have not been exposed.
+
+Instance-level MCP is generally available: see the
+[n8n 2.31 release notes](https://docs.n8n.io/changelog/release-notes/#n8n231)
+and [the GA change](https://github.com/n8n-io/n8n/pull/34084).
+The power uses the [workflow management and builder tools](https://docs.n8n.io/connect/connect-to-n8n-mcp-server/mcp-server-tools-reference/),
+including workflows containing AI Agent nodes. Standalone n8n Agents are a
+separate Preview feature and are outside this release. The supported minimum
+covers OAuth setup and workflow use together. The
+[per-client connection screen](https://docs.n8n.io/connect/connect-to-n8n-mcp-server/)
+was introduced in 2.33.0; that UI milestone alone does not verify this power.
+
+## Install and connect
+
+1. In **NeuralBridge > Powers**, select **n8n** under **Available** and install it.
+   NeuralBridge installs the power folder from the NeuralBridge powers repository
+   (`https://github.com/vasya6653666/neural_bridge`, folder `n8n`, branch `main`).
+2. Ask NeuralBridge to connect to n8n and give it your instance base URL or full MCP URL.
+   The connection skill runs the bundled helper. No npm install, token copying,
+   or JSON editing is needed on this path.
+3. The helper creates a native user-level MCP connection shared across projects.
+   Request workspace scope to configure only the current project.
+4. Under **NeuralBridge > MCP Servers**, select the named server and **Authenticate**.
+   Sign in to n8n and review consent. NeuralBridge may request all advertised
+   permissions: choose **Custom**, then workflow read/write/execute and execution
+   read for basic workflow tasks. Use narrower grants for read-only tasks.
+5. Ask NeuralBridge to search for a workflow. A successful read verifies the connection;
+   a browser success page alone does not.
+
+For manual setup from this checkout:
+
+```sh
+node skills/connect-n8n/scripts/setup.mjs configure --url "<your n8n URL>"
+```
+
+Replace the angle-bracket value. Use HTTPS except on loopback, and preserve any
+deployment base path. The default is a user-level connection shared across
+projects. For a project-only connection pass both flags, since `--workspace`
+alone still writes user settings:
+
+```sh
+node skills/connect-n8n/scripts/setup.mjs configure --url "<your n8n URL>" --scope workspace --workspace "<absolute project path>"
+```
+
+Settings live in NeuralBridge's native configuration; this power ships no root
+`mcp.json`.
+See the [setup guide](docs/setup-helper.md) for repair, removal, and migration.
+
+## Token fallback
+
+If OAuth registration or callback policy prevents setup, you can explicitly
+choose an n8n MCP access token. Copy it from n8n's MCP connection settings into
+an environment variable available to NeuralBridge, keeping the value out of chat and
+the repository. Add a separately named native MCP entry:
+
+```json
+{
+  "mcpServers": {
+    "n8n-token": {
+      "url": "https://YOUR-N8N-HOST/mcp-server/http",
+      "headers": { "Authorization": "Bearer ${N8N_MCP_ACCESS_TOKEN}" }
+    }
+  }
+}
+```
+
+NeuralBridge substitutes the variable from the environment it was launched with. A GUI-launched NeuralBridge may not
+inherit terminal variables; restart it with the variable available after token
+rotation. The OAuth helper does not manage tokens or adopt this entry.
+
+## Using the power
+
+- `connect-n8n` checks the intended instance, connection, and access.
+- `build-workflow` uses workspace context to create and test workflows.
+- `debug-execution` investigates execution data and applies grounded repairs.
+
+Workflow guidance comes from a pinned copy of
+[n8n-io/skills](https://github.com/n8n-io/skills), bundled with the power and
+[reviewed local corrections](patches/shared-skills.patch). The three
+NeuralBridge entry skills load the relevant shared guidance on demand; there is no second
+plugin to install. This repository owns OAuth setup and the NeuralBridge adaptations.
+See [shared-skill maintenance](docs/setup-helper.md#shared-skills) for updates.
+
+The server supplies tool schemas and SDK instructions. Missing tools can reflect
+version, enabled features, licensing, OAuth permissions, or user access. Creating
+or editing a draft does not publish it. Real executions can affect external
+systems; simulated tests do not prove those integrations work.
+
+## Privacy and support
+
+Workflow data goes between NeuralBridge and your n8n instance. The helper makes discovery
+and public-client registration requests, then writes local configuration and
+nonsecret registration metadata. NeuralBridge handles browser authorization and tokens.
+The helper adds no proxy, background service, telemetry, or token storage.
+Local configuration backups can contain secrets from other MCP entries; do not
+commit or share them.
+
+- [n8n privacy policy](https://n8n.io/legal/privacy/)
+- [n8n community support](https://community.n8n.io) — include the
+  `n8n-workflow-dev` name and your NeuralBridge/n8n versions.
+
+[Apache-2.0 license](LICENSE)

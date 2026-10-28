@@ -1,0 +1,10 @@
+output/
+.DS_Store
+node_modules/
+*.log
+.env
+.playwright-mcp/
+
+# Local test infrastructure (kept out of the published power)
+TESTING.md
+test-fixtures/

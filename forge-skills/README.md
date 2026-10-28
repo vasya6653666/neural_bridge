@@ -1,0 +1,261 @@
+# Atlassian Forge Skills
+
+Atlassian Forge lets you build and deploy apps directly on the Atlassian platform - issue panels, Confluence macros, dashboard gadgets, and more. The Forge Skills Plugin bundles several Forge-focused skills plus MCP-backed tooling so your agent can scaffold apps, review them before deploy, debug production issues, and stay current on Forge APIs and the Atlassian Design System.
+
+## What's included
+
+### Skills
+
+The plugin ships multiple skills under `skills/`, each with a `SKILL.md` the host can load:
+
+**Forge Onboarding** (`skills/forge-onboarding/`) guides a first-time Forge builder through one continuous run: scaffold a Rovo Agent, customize it into **Forge Guru** — an agent that answers Forge questions from the official docs — then deploy and install it on their test site. One authorization gate up front, no mid-build prompts. Use it for "my first Forge app", "my first Rovo Agent", or to resume the tutorial on an existing developer site.
+
+**Forge App Builder** (`skills/forge-app-builder/`) guides scaffolding through production: `forge create`, dev spaces and templates, deploy and install, module selection, cross-product scopes, and common CLI or permission issues.
+
+**Forge App Review** (`skills/forge-app-review/`) supports pre-deploy review and audits: security, architecture, cost and invocation efficiency, performance, and trigger or scheduling waste.
+
+**Forge Cost Optimizer** (`skills/forge-cost-optimizer/`) helps reduce Forge platform consumption across invocations, storage, logs, memory, triggers, API calls, and frontend/backend boundaries.
+
+**Forge Debugger** (`skills/forge-debugger/`) supports systematic troubleshooting when something breaks: `forge` / deploy errors, resolver failures, blank or missing UI, scopes and permissions, and apps that “stopped working” in Jira or Confluence.
+
+**Forge Connector** (`skills/forge-connector/`) guides building `graph:connector` apps that ingest external data into Atlassian's Teamwork Graph, making it searchable in Rovo Search and surfaced in Rovo Chat.
+
+**Forge Security Review** (`skills/forge-security-review/`) performs white-box Forge app security audits with rule-driven checks for authz, injection, tenant isolation, secrets handling, egress/remotes, web triggers, and optional static-analysis workflows.
+
+### Forge MCP Server
+
+Gives your agent access to up-to-date Forge documentation, template registries, module configuration, manifest syntax, and UI Kit/backend API guides -- so its knowledge stays current rather than relying on training data.
+
+### ADS MCP Server
+
+Provides Atlassian Design System lookup for Custom UI apps: component discovery, token reference, and icon search via the `@atlaskit` library.
+
+| Component                       | What it adds                                              | Examples                                                               |
+| ------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Forge Onboarding skill**      | Guided first-Forge-app tutorial with a two-loop journey   | Stock Rovo Agent, Forge Guru docs companion, resume onboarding          |
+| **Forge App Builder skill**     | Scaffold, deploy, install, module choice, CLI workflows   | `forge create`, environments, cross-product scopes                     |
+| **Forge App Review skill**      | Pre-deploy review: security, cost, architecture, triggers | Audit before release, reduce invocations, find misconfigurations       |
+| **Forge Cost Optimizer skill**  | Reduce Forge platform consumption and avoid waste         | Invocations, storage writes, logs, memory, triggers                    |
+| **Forge Debugger skill**        | Diagnose deploy, runtime, UI, and permission issues       | Logs, blank panels, resolver errors, missing app in UI                 |
+| **Forge Connector skill**       | Ingest external data into Teamwork Graph / Rovo           | graph:connector, setObjects, Rovo Search, Rovo Chat                    |
+| **Forge Security Review skill** | White-box security audits and exploitability reporting    | AuthZ bypasses, injection, tenant isolation, static analysis workflows |
+| **Forge MCP Server**            | Live Forge documentation and tooling                      | Template lookup, manifest syntax, UI Kit guides, backend API reference |
+| **ADS MCP Server**              | Atlassian Design System lookup                            | Component discovery, token reference, icon lookup (Custom UI only)     |
+
+## Prerequisites
+
+Before you install, make sure you have:
+
+- An [Atlassian account](https://id.atlassian.com)
+- **Node.js 22+** (`node -v`) — required for Forge CLI and app builds
+- **Python 3** available on your PATH (used by helper scripts)
+
+## Install
+
+### Claude Code
+
+```
+/plugin install forge-skills@atlassian-forge-skills
+```
+
+### Cursor
+
+The Forge Skills plugin can be installed directly from the [Cursor Marketplace](https://cursor.com/marketplace/atlassian/forge-skills)
+
+Or by running the following command in chat with a Cursor agent:
+
+```
+/add-plugin forge-skills
+```
+
+### Gemini CLI
+
+```bash
+gemini extensions install https://github.com/atlassian/forge-skills
+```
+
+### GitHub Copilot CLI
+
+```bash
+copilot plugin install atlassian/forge-skills
+```
+
+### OpenAI Codex
+
+Install the Forge Skills marketplace:
+
+```bash
+codex plugin marketplace add atlassian/forge-skills --ref main
+```
+
+Then install the plugin:
+
+```bash
+codex plugin add forge-skills@atlassian-forge-skills
+```
+
+Start a new Codex thread after installing so the Forge skills and MCP servers are loaded.
+
+To refresh the Codex marketplace after updates:
+
+```bash
+codex plugin marketplace upgrade atlassian-forge-skills
+codex plugin add forge-skills@atlassian-forge-skills
+```
+
+### NeuralBridge and Agent Plugins clients
+
+This repository follows the [Agent Plugins v1.0.0 specification](https://agent-plugins.org/). In NeuralBridge, open the Powers panel, choose **Add Custom Power**, and import this repository from GitHub or from a local checkout.
+
+Portable clients discover:
+
+- `plugin.json` for plugin identity and metadata
+- `skills/*/SKILL.md` for Agent Skills
+- `mcp.json` for Forge and Atlassian Design System MCP servers
+
+The separate `.mcp.json` and client-specific manifest directories remain in place for clients that use their own plugin formats.
+
+### Rovo Dev
+
+Rovo Dev doesn't currently support plugin installations but you can install the skills and MCP servers separately.
+
+Install the skills:
+
+```bash
+npx skills add atlassian/forge-skills
+```
+
+Then run `acli rovodev mcp` to edit your MCP configuration in your default editor. Add the details from `.mcp.json`.
+
+Restart Rovo Dev for the skills and MCP to be available.
+
+## Verify the installation
+
+After install, try four quick checks.
+
+### 1. Verify the skill layer
+
+Ask:
+
+> Build me a Jira issue panel that shows customer support tickets.
+
+You should get a structured Forge workflow: developer space discovery, template selection, `forge create`, code customization, and deployment -- not just generic code snippets.
+
+Optionally confirm the other skills are available:
+
+- **Onboarding:** e.g. “Onboard me to Forge” or “Build my first Rovo Agent.”
+- **Review:** e.g. “Review my Forge app for security and unnecessary trigger invocations before I deploy.”
+- **Debug:** e.g. “My Forge issue panel is blank after deploy -- help me trace it.”
+- **Security:** e.g. “Run a white-box security review on this Forge app and include CVSS-scored findings.”
+
+### 2. Verify Forge MCP
+
+Ask:
+
+> What Forge templates are available for Confluence macros?
+
+You should get a tool-backed response from the Forge documentation, not a hallucinated list.
+
+### 3. Verify ADS MCP (Custom UI only)
+
+Ask:
+
+> What Atlaskit components should I use for a data table?
+
+You should get a response backed by the Atlassian Design System, with specific component names and import paths.
+
+### 4. Verify Forge Connector skill
+
+Ask:
+
+> I want to ingest data from an external project management tool into Rovo Search using a Forge connector app. Where do I start?
+
+You should get a structured walkthrough covering `graph:connector` app setup, `setObjects` ingestion, required scopes, and how the data surfaces in Rovo Search and Rovo Chat -- not a generic Forge tutorial.
+
+## Prompts to try
+
+Once the plugin is installed, try prompts like these:
+
+- `Onboard me to Forge and walk me through my first Rovo Agent.`
+- `Resume Forge onboarding on my existing developer site.`
+- `Create a Jira issue panel that shows related support tickets from an external API.`
+- `Build a Confluence macro that embeds an interactive chart with bar, line, and pie options.`
+- `Add a Jira dashboard gadget that summarizes open issues grouped by priority.`
+- `Create a Confluence macro that reads Jira issues assigned to me and displays them in a table.`
+- `My forge create keeps failing with "Prompts can not be meaningfully rendered" -- help!`
+- `Deploy my Forge app to my staging site.`
+- `What scopes do I need for a Confluence app that also reads Jira data?`
+- `Review my Forge app for cost and security before production.`
+- `Run a white-box security audit of this Forge app and focus on authz bypass and web trigger abuse.`
+- `forge deploy fails with [error] -- what should I check?`
+
+## What you get
+
+| Component                 | Default location                                                                               | Purpose                                                                        |
+| ------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Forge Onboarding**      | `skills/forge-onboarding/`                                                                     | Guided first-Forge-app tutorial: scaffold → customize → deploy → install Forge Guru on your test site, with one authorization gate (`SKILL.md`, README, references, assets) |
+| **Forge App Builder**     | `skills/forge-app-builder/`                                                                    | Create, deploy, install; helper scripts and tests                              |
+| **Forge App Review**      | `skills/forge-app-review/`                                                                     | Pre-deploy review and audits (`SKILL.md`, README)                              |
+| **Forge Cost Optimizer**  | `skills/forge-cost-optimizer/`                                                                 | Reduce Forge platform consumption across invocations, storage, logs, and memory |
+| **Forge Connector**       | `skills/forge-connector/`                                                                      | Build graph:connector apps; ingest data into Teamwork Graph (SKILL.md, README) |
+| **Forge Debugger**        | `skills/forge-debugger/`                                                                       | Troubleshooting and diagnostics (`SKILL.md`, README)                           |
+| **Forge Security Review** | `skills/forge-security-review/`                                                                | White-box security audits with rule assets (`SKILL.md`, README, assets/)       |
+| **MCP config**            | `mcp.json`, `.mcp.json`                                                                        | Forge MCP Server and ADS MCP Server configuration                    |
+| **Plugin manifests**      | `plugin.json`, `.plugin/`, `.cursor-plugin/`, `.claude-plugin/`, `.codex-plugin/`, `gemini-extension.json` | Per-host plugin metadata and MCP wiring                 |
+
+## Authentication
+
+The Forge CLI handles authentication:
+
+```bash
+forge login
+```
+
+You will be prompted for your Atlassian email and an [API token](https://id.atlassian.com/manage/api-tokens). Enter credentials only in your terminal -- never paste tokens into chat.
+
+Verify you are logged in:
+
+```bash
+forge whoami
+```
+
+## Troubleshooting
+
+### The agent is not using Forge skills
+
+- Make sure the plugin installed successfully in your host
+- Confirm the `skills/` directory includes `forge-onboarding`, `forge-app-builder`, `forge-app-review`, `forge-debugger`, `forge-connector`, and `forge-security-review` (each with a `SKILL.md` where applicable)
+- Reload or restart your host so it re-indexes plugins and MCP configuration
+
+### MCP tools are not showing up
+
+- Check that the Forge MCP entries were added for your host
+- Restart MCP servers or reload the host after configuration changes
+- Verify Node.js is installed (`node -v`)
+
+### Forge commands fail with auth errors
+
+- Re-run `forge login`
+- Create a new API token at [id.atlassian.com/manage/api-tokens](https://id.atlassian.com/manage/api-tokens)
+- Make sure the correct developer space is selected
+
+### forge create fails
+
+- **"Prompts can not be meaningfully rendered"**: Run `forge create` in an interactive terminal
+- **"No developer spaces found"**: Create one at [developer.atlassian.com/console](https://developer.atlassian.com/console/)
+- **"forge: command not found"**: `npm install -g @forge/cli`
+
+## Learn more
+
+- [Forge documentation](https://developer.atlassian.com/platform/forge/)
+- [Forge CLI reference](https://developer.atlassian.com/platform/forge/cli-reference/)
+- [Atlassian Design System](https://atlassian.design/)
+- [Forge community](https://community.developer.atlassian.com/c/forge/)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+[Apache 2.0](LICENSE)

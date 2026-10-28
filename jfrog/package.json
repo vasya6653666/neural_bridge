@@ -1,0 +1,21 @@
+{
+  "name": "jfrog-neuralbridge-power",
+  "version": "0.1.9",
+  "private": true,
+  "type": "module",
+  "description": "JFrog for NeuralBridge (IDE and CLI) \u2014 power (POWER.md + mcp.json + steering, with JFrog MCP server support) and optional /-command skills built from the vendored JFrog Agent Skills.",
+  "license": "Apache-2.0",
+  "bin": {
+    "jfrog-neuralbridge-install": "scripts/install-neuralbridge.mjs"
+  },
+  "scripts": {
+    "sync-skills": "node scripts/sync-skills.mjs",
+    "gen-steering": "node scripts/gen-steering.mjs",
+    "revendor": "npm run sync-skills && npm run gen-steering",
+    "install-scripts": "node scripts/install-scripts.mjs",
+    "install-neuralbridge": "node scripts/install-neuralbridge.mjs",
+    "verify-install": "bash scripts/verify-install.sh",
+    "validate": "node scripts/validate.mjs",
+    "test": "node --test scripts/validate.test.mjs"
+  }
+}

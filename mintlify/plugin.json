@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mintlify",
+  "version": "1.0.11",
+  "description": "Create, maintain, and improve Mintlify documentation with product guidance and Mintlify tools.",
+  "author": {
+    "name": "Mintlify",
+    "url": "https://mintlify.com"
+  },
+  "keywords": [
+    "mintlify",
+    "documentation",
+    "docs.json",
+    "api documentation",
+    "technical writing",
+    "mdx",
+    "openapi"
+  ],
+  "homepage": "https://mintlify.com/docs",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "MIT"
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "Mintlify Search": {
+      "type": "streamable-http",
+      "url": "https://mintlify.com/docs/mcp"
+    },
+    "Mintlify Admin": {
+      "type": "streamable-http",
+      "url": "https://mcp.mintlify.com"
+    }
+  }
+}

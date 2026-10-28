@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "rawtree",
+  "displayName": "RawTree",
+  "version": "0.3.1",
+  "description": "Ingest JSON events, run read-only SQL, and inspect logs in RawTree. Connects to the hosted RawTree MCP server (OAuth) and bundles the RawTree skill. Requires a RawTree account.",
+  "author": {
+    "name": "RawTree",
+    "email": "teamrt@rawtree.com"
+  },
+  "homepage": "https://rawtree.com/docs/reference/mcp",
+  "repository": "https://github.com/rawtreedb/agent-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "rawtree",
+    "analytics",
+    "database",
+    "sql",
+    "json",
+    "logs",
+    "traces",
+    "metrics",
+    "ingest",
+    "mcp"
+  ],
+  "icon": "./assets/logo.png",
+  "documentationUrl": "https://rawtree.com/docs/reference/mcp",
+  "supportUrl": "https://rawtree.com/docs",
+  "privacyPolicyUrl": "https://www.tinybird.co/privacy",
+  "termsOfServiceUrl": "https://www.tinybird.co/terms-and-conditions"
+}

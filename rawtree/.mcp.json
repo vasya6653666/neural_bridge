@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "rawtree": {
+      "type": "http",
+      "url": "https://mcp.rawtree.com/mcp"
+    }
+  }
+}

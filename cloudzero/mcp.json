@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "cloudzero": {
+      "url": "https://czca-server.discovery.cloudzero.com/mcp",
+      "disabled": false
+    }
+  }
+}

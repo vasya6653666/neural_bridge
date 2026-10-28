@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "vonage-api": {
+      "command": "npx",
+      "args": ["-y", "@vonage/vonage-mcp-server-api-bindings"],
+      "env": {
+        "VONAGE_APPLICATION_ID": "${VONAGE_APPLICATION_ID}",
+        "VONAGE_PRIVATE_KEY64": "${VONAGE_PRIVATE_KEY64}",
+        "VONAGE_API_KEY": "${VONAGE_API_KEY}",
+        "VONAGE_API_SECRET": "${VONAGE_API_SECRET}",
+        "VONAGE_VIRTUAL_NUMBER": "${VONAGE_VIRTUAL_NUMBER}",
+        "VONAGE_WHATSAPP_NUMBER": "${VONAGE_WHATSAPP_NUMBER}",
+        "RCS_SENDER_ID": "${RCS_SENDER_ID}"
+      }
+    },
+    "vonage-docs": {
+      "url": "https://documentation-mcp.vonage.dev/mcp"
+    }
+  }
+}

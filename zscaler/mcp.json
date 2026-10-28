@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "zscaler": {
+      "command": "uvx",
+      "args": ["zscaler-mcp"],
+      "env": {
+        "ZSCALER_CLIENT_ID": "${ZSCALER_CLIENT_ID}",
+        "ZSCALER_CLIENT_SECRET": "${ZSCALER_CLIENT_SECRET}",
+        "ZSCALER_CUSTOMER_ID": "${ZSCALER_CUSTOMER_ID}",
+        "ZSCALER_VANITY_DOMAIN": "${ZSCALER_VANITY_DOMAIN}"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+# OS / editor
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node (skill dev deps)
+node_modules/
+
+# Ephemeral eval / workspace outputs
+forge-app-builder-workspace/

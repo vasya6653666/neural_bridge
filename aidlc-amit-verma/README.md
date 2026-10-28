@@ -1,0 +1,34 @@
+# Sample NeuralBridge Power AI-DLC
+
+A NeuralBridge Power that brings the **AI-Driven Development Life Cycle (AI-DLC)** adaptive workflow into your IDE.
+
+AI-DLC is a structured three-phase software development methodology (Inception → Construction → Operations) that adapts to project complexity — simple changes stay efficient, complex changes get comprehensive treatment.
+
+## Quick Start
+
+1. Install the power from the **Powers** panel in NeuralBridge IDE.
+2. Download the [AI-DLC rule details](https://github.com/awslabs/aidlc-workflows/releases/latest) and place them at `.neuralbridge/aws-aidlc-rule-details/` in your project
+3. Start any task with **"Using AI-DLC, ..."**
+
+## What's Included
+
+| File | Purpose |
+|------|---------|
+| `POWER.md` | Power manifest — metadata, onboarding, usage guide |
+
+
+## Additional Resources
+
+- [AI-DLC Method Definition Paper](https://prod.d13rzhkk8cj2z0.amplifyapp.com/)
+- [AI-DLC Methodology Blog](https://aws.amazon.com/blogs/devops/ai-driven-development-life-cycle/)
+- [AI-DLC Open-source Launch Blog](https://aws.amazon.com/blogs/devops/open-sourcing-adaptive-workflows-for-ai-driven-development-life-cycle-ai-dlc/)
+- [AI-DLC Example Walkthrough Blog](https://aws.amazon.com/blogs/devops/building-with-ai-dlc-using-amazon-q-developer/)
+- [GitHub Repository](https://github.com/awslabs/aidlc-workflows)
+
+## Security
+See CONTRIBUTING for more information.
+
+## License
+
+This power is licensed under the [MIT License](LICENSE). 
+The AI-DLC workflow content is sourced from [awslabs/aidlc-workflows](https://github.com/awslabs/aidlc-workflows) (Apache-2.0).

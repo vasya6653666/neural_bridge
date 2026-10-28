@@ -1,0 +1,5 @@
+# IDE / local tooling
+.idea/
+.neuralbridge/settings/mcp.json
+.claude/
+CLAUDE.md

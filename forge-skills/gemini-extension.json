@@ -1,0 +1,9 @@
+{
+  "name": "forge-skills",
+  "version": "1.0.0",
+  "mcpServers": {
+    "forge": {
+      "url": "https://mcp.atlassian.com/v1/forge/mcp"
+    }
+  }
+}

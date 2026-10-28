@@ -1,0 +1,17 @@
+extension PreviousScope {
+  public var unrelated: Swift.Int { get }
+}
+@available(iOS 26.0, macOS 26.0, *)
+public struct TopLevel {
+}
+extension Container {
+  @available(iOS 27.0, macOS 27.0, *)
+  public struct Nested {
+  }
+  @frozen public enum Availability : Swift.Sendable {
+  }
+  @_disfavoredOverload public func respond(to prompt: Swift.String)
+  public init(value: Swift.Int)
+}
+@_typeEraser(AnyDynamicInstructions) public protocol DynamicInstructions {
+}

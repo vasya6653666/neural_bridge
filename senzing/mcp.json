@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "senzing": {
+      "url": "https://mcp.senzing.com/mcp"
+    }
+  }
+}

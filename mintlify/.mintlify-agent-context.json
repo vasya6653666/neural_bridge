@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "mintlify/docs",
+  "sourcePath": "agent-context",
+  "sourceCommit": "2045ee095d351262f70169d39ce60ace2e35fc85",
+  "target": "neuralbridge"
+}

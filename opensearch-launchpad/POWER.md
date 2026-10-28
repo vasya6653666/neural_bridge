@@ -1,0 +1,389 @@
+---
+name: "opensearch-launchpad"
+displayName: "OpenSearch Launchpad"
+description: "Accelerate proof-of-concept search applications with guided, end-to-end architecture planning. Ingests sample documents, captures preferences, designs the solution architecture, provisions indices, ML models, ingest pipelines, and a search UI locally, then deploys to Amazon OpenSearch Service or Amazon OpenSearch Serverless."
+keywords: ["opensearch", "search", "semantic search", "vector search", "hybrid search", "RAG", "embeddings", "knn", "neural search", "BM25", "index", "search architecture", "Amazon OpenSearch", "aws", "serverless", "Amazon OpenSearch Serverless"]
+author: "AWS"
+---
+
+# Onboarding
+
+## Prerequisites
+
+1. **Python 3.11+** and `uv` installed ([Install uv](https://docs.astral.sh/uv/getting-started/installation/))
+2. **Docker** installed and running ([Download Docker](https://docs.docker.com/get-docker/))
+3. **For Phase 5 (AWS deployment)**: AWS credentials configured
+
+## AWS Setup (for Phase 5 deployment)
+
+Phase 5 (AWS deployment) is optional. Only complete this setup if you want to deploy to Amazon OpenSearch Service.
+
+### Step 1: Add AWS MCP Servers
+
+Before starting Phase 5, add the required MCP servers to your power configuration:
+
+1. Open the power's `mcp.json` file (located in the power directory)
+2. Add the following servers to the `mcpServers` section:
+
+```json
+{
+  "mcpServers": {
+    "opensearch-launchpad": {
+      "command": "uvx",
+      "args": ["opensearch-launchpad@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "awslabs.aws-api-mcp-server": {
+      "command": "uvx",
+      "args": ["awslabs.aws-api-mcp-server@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "aws-knowledge-mcp-server": {
+      "command": "uvx",
+      "args": ["fastmcp", "run", "https://knowledge-mcp.global.api.aws"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "opensearch-mcp-server": {
+      "command": "uvx",
+      "args": ["opensearch-mcp-server-py@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+3. Save the file and restart NeuralBridge or reconnect the MCP servers
+
+### Step 2: Install AWS CLI
+
+Install AWS CLI if not already installed:
+
+```bash
+# macOS
+brew install awscli
+
+# Linux
+pip install awscli
+
+# Windows
+# Download from https://aws.amazon.com/cli/
+```
+
+### Step 3: Configure AWS Credentials
+
+Choose one method:
+
+**Option A: AWS CLI configuration** (recommended):
+```bash
+aws configure
+# Enter your AWS Access Key ID
+# Enter your AWS Secret Access Key
+# Enter your default region (e.g., us-east-1)
+# Enter default output format (json)
+```
+
+**Option B: Environment variables**:
+```bash
+export AWS_ACCESS_KEY_ID="your-access-key"
+export AWS_SECRET_ACCESS_KEY="your-secret-key"
+export AWS_REGION="us-east-1"
+```
+
+### Step 4: Verify Setup
+
+Verify AWS credentials:
+```bash
+aws sts get-caller-identity
+```
+
+### Step 5: Ensure IAM Permissions
+
+Your AWS user/role needs permissions for:
+- OpenSearch Service: Create/manage domains and serverless collections
+- IAM: Create and manage roles for OpenSearch
+- Bedrock: Invoke models (for semantic search and agentic search)
+
+Once configured, the AWS MCP servers will be available for Phase 5 deployment.
+
+## Troubleshooting
+
+### If you get a `spawn uvx ENOENT` error or If Docker is running but the MCP server can't find it
+
+Some MCP clients may be unable to find `uvx` or `docker` from the JSON config
+environment. This will result in error messages like
+`Could not connect to MCP server dbt-mcp`, `Error: spawn uvx ENOENT`, or Docker
+not found errors even when Docker is installed and running.
+
+Solution: Locate the full path to `uvx` and `docker`, then ensure your MCP
+`env.PATH` includes that directory:
+
+macOS/Linux:
+- Run `which uvx`
+- Run `which docker` (example output: `/usr/local/bin/docker`)
+
+Windows:
+- Run `where uvx`
+- Run `where docker`
+
+If `which docker` returns `/usr/local/bin/docker`, add `/usr/local/bin` to
+`env.PATH` in your MCP config.
+
+1. Open the Command Palette in NeuralBridge (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Windows/Linux), then run `NeuralBridge: Open user MCP config (JSON)` (or open workspace MCP config).
+2. In `mcpServers`, find the namespaced server entry (for example, `power-opensearch-launchpad-opensearch-launchpad`) and update it to match the example below:
+
+```jsonc
+{
+  "mcpServers": {
+    "opensearch-launchpad": {
+      "command": "uvx",
+      "args": [
+        "opensearch-launchpad@latest"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "PATH": "/usr/local/bin:/usr/bin:/bin:/opt/anaconda3/bin"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+3. Save. NeuralBridge applies changes on save and reconnects automatically (or use **Reconnect** in the **MCP Servers** view if needed).
+4. If the connection still fails, open the **MCP Servers** view and choose **Reconnect** on `power-opensearch-launchpad-opensearch-launchpad`; **Show MCP Logs** shows the error.
+
+
+## Quick Test
+
+After configuration, try: *"I want to build a semantic search app with 10M docs"*
+
+---
+
+# Overview
+
+An MCP-powered assistant that guides you from requirements to a running OpenSearch search setup.
+
+This power provides an OpenSearch Search Solution building workflow. It collects a sample document, gathers your preferences (query pattern), plans an architecture using an AI planner agent, and executes the plan to create indices, models, pipelines, and a search UI.
+
+## Workflow Phases
+
+### Phase 1: Collect Sample Document (mandatory first step)
+- Ask the user how they want to provide a sample document. Present as a numbered list:
+  1. Use built-in IMDB dataset
+  2. Load from a local file or URL
+  3. Load from a localhost OpenSearch index
+  4. Paste JSON directly
+- Based on the user choice, call `load_sample(source_type, source_value, localhost_auth_mode, localhost_auth_username, localhost_auth_password)`.
+  - source_type: `builtin_imdb`, `local_file`, `url`, `localhost_index`, or `paste`
+  - source_value: file path, URL, index name, or pasted JSON content (empty string for builtin_imdb)
+  - localhost auth args are used only for `source_type="localhost_index"`:
+    - `localhost_auth_mode`: `default`, `none`, or `custom` (`default` is internal fallback; do not present it as a user-facing choice)
+    - `localhost_auth_username` and `localhost_auth_password`: required only for `custom`
+    - mode behavior:
+      - `none` => force no authentication
+      - `custom` => force provided username/password
+      - `default` => force `admin` / `myStrongPassword123!` (internal-only fallback)
+- For option 2, determine whether the user provided a local file path or a URL and use the appropriate source_type (`local_file` or `url`).
+- For option 3 (localhost index):
+  - Ask auth mode first only when needed with these user-facing choices: `none` (no-auth) or `custom` (username/password). Do not present `default` as a user-facing choice.
+  - If the user does not explicitly request `none` or `custom`, set `localhost_auth_mode="default"` internally.
+  - If auth mode is `custom`, ask for username and password first (before asking for index name). If already provided, do not ask again.
+  - After auth details are ready (or immediately for `none`/`default`), call `load_sample("localhost_index", "", <mode>, <username>, <password>)` first to fetch available non-system indices.
+  - Present the returned indices as a numbered list and ask the user to pick one (by number or exact name). Then call `load_sample("localhost_index", <selected_index>, <mode>, <username>, <password>)`.
+  - If the user already supplied a candidate index name, still validate it against the returned index list and ask for re-selection if it does not exist.
+  - If the user already provided both username and password, do not ask for credentials again.
+  - If the selected index is empty (has no documents), explain the issue and offer alternatives: ingest at least one document and retry, provide a local file/URL (option 2), use built-in IMDB (option 1), or paste JSON (option 4).
+- For option 4, ask the user to paste 1-3 representative JSON records, then call `load_sample("paste", <pasted_content>)`.
+- The result includes `inferred_text_fields` and `text_search_required`. Use these to skip redundant questions in Phase 2.
+- A sample document is required before any planning or execution.
+
+### Phase 2: Gather Preferences
+- Ask one preference question at a time, in this order.
+- Present each question as a numbered list and ask the user to reply with the number of their choice.
+
+- If `text_search_required=true`:
+  **Query pattern:**
+  1. Mostly-exact (e.g. "Carmencita 1894")
+  2. Mostly-semantic (e.g. "early silent films about dancers")
+  3. Balanced (mix of both)
+
+- If `text_search_required=true` and query pattern is balanced or mostly-semantic, ask deployment preference as a separate follow-up question:
+
+  **Deployment preference:**
+  1. OpenSearch node
+  2. SageMaker endpoint
+  3. External embedding API
+
+- If `text_search_required=false`, skip query-pattern and deployment-preference questions.
+  Keep the solution numeric/filter/aggregation-first, and do not suggest changing or enriching
+  data purely to force semantic search unless the user explicitly requests semantic search.
+- Call `set_preferences(query_pattern, deployment_preference)`.
+
+### Phase 3: Plan
+- Call `start_planning()` to get the initial architecture proposal.
+- If `start_planning()` returns `manual_planning_required=true`, follow the returned planner bootstrap payload and call `set_plan_from_planning_complete(planner_response)` after user confirmation.
+- Present the proposal to the user.
+- If the user has feedback or questions, call `refine_plan(user_feedback)`. Repeat as needed.
+- When the user confirms:
+  - tool-driven path: call `finalize_plan()` and use {solution, search_capabilities, keynote}
+  - manual path: call `set_plan_from_planning_complete(planner_response)` with the finalized planner output
+
+### Phase 4: Execute
+- **Before execution**, call `preflight_check_cluster()` to detect any existing OpenSearch cluster on the configured host:port.
+  - If `status` is `"available"`: a cluster is reachable. Inform the user and proceed with execution using the detected cluster.
+  - If `status` is `"auth_required"`: a cluster is running but credentials failed. Ask the user for their username and password, then call `preflight_check_cluster(localhost_auth_mode="custom", localhost_auth_username="...", localhost_auth_password="...")`. If the second call returns `"available"`, credentials are persisted in-process for all subsequent tool calls — no restart needed. If it still fails, offer to bootstrap a fresh local cluster instead.
+  - If `status` is `"no_cluster"`: nothing is listening. Execution will automatically bootstrap a local Docker cluster.
+- Call `execute_plan()` to run index/model/pipeline/UI setup.
+- If `execute_plan()` returns manual execution bootstrap payload, follow it and then call `set_execution_from_execution_report(worker_response, execution_context)` to persist normalized execution state.
+- If execution fails, the user can fix the issue (e.g., restart Docker) and call `retry_execution()`.
+
+### Phase 4.5: Evaluate Search Quality (optional)
+- After successful Phase 4 execution, offer to evaluate search quality before deploying to AWS.
+- Ask the user: *"Would you like to evaluate the search quality? I can analyze relevance, coverage, and capability gaps, and suggest improvements."*
+- If the user agrees, call `start_evaluation()`.
+- `start_evaluation()` executes verification queries against the live OpenSearch index (no client sampling needed) and returns the results.
+- The response includes `evaluation_result_table` — a markdown table with ACTUAL search results from the live index. Each row has: `#`, `query_text`, `capability`, `doc_id`, `doc_details` (embeddings stripped), `score` (real BM25/vector score), and `relevance` (set to `?` awaiting judgment). **This is real data from the index — do NOT fabricate results or call other search tools.**
+- When `manual_evaluation_required=true` (expected in NeuralBridge powers):
+  1. **Do NOT display the raw table yet.** Do NOT call `search_opensearch_org` or any other tool to get search results — the results are already in `evaluation_result_table`.
+  2. **Act as both relevance judge and evaluator in a single pass**: Read each row in `evaluation_result_table`. For each hit, judge whether the document is relevant to the query intent based on the `doc_details` and `score`. Then produce a complete `<evaluation_complete>` block using the `evaluation_prompt`. Ground your dimension scores in the actual per-query data (e.g., count relevant hits out of top-5 for P@5, check if the first hit is relevant for MRR).
+  3. Call `set_evaluation_from_evaluation_complete(evaluator_response)` with your `<evaluation_complete>` output.
+- **Now render everything together** to the user in a single response:
+  - Re-render the `evaluation_result_table` as a markdown table but with the `?` replaced by your actual relevance judgments (`relevant` or `irrelevant`). Include ALL rows from the original table — do not skip any queries or docs.
+  - Below the table, show the evaluation summary: dimension scores, `search_quality_summary`, `issues`, and `suggested_preferences`.
+- Doc details in the table have embeddings automatically stripped (fields containing `embedding` or `vector` are removed).
+- After presenting the evaluation, offer the user three options:
+  1. **Restart with improvements** — apply the recommended fixes and rebuild with a new index.
+  2. **Deploy to Amazon OpenSearch Service** (Phase 5) — deploy the current configuration as-is.
+  3. **Done for now** — keep experimenting with the Search Builder UI.
+- If HIGH severity findings exist, recommend option 1 and explain the specific fix. If only LOW findings, note that the setup is acceptable and any option is reasonable.
+- If `suggested_preferences` is non-empty, include them in the option 1 recommendation.
+
+#### Restart / Improvement Flow
+
+When the user chooses to restart with improvements:
+
+1. **Record the current index name** — do NOT delete the old index. The user needs it for comparison.
+2. Restart from **Phase 3** (planning), not Phase 1. The sample data is already loaded — only the search strategy/pipeline needs to change. Apply the `suggested_preferences` from the evaluation automatically.
+3. During Phase 4 execution, create the new index with a **different name** (e.g. append `-v2` or `-improved` to the original index name). Do not overwrite the original index.
+4. After Phase 4 completes on the improved index, call `launch_search_ui(index_name=<new_index>)` to relaunch the UI pointing at the new index.
+5. Call `set_search_ui_comparison_mode(baseline_index=<old_index>, improved_index=<new_index>)` to enable side-by-side comparison in the UI.
+6. Inform the user:
+   *"The improved search setup is live. You can use the Compare toggle in the Search Builder to see the old index alongside the new one and compare results side by side. Both indices are available in the index dropdowns."*
+7. After the user reviews, offer:
+   1. **Re-evaluate** — run `start_evaluation()` again on the improved index to measure the impact.
+   2. **Deploy to Amazon OpenSearch Service** (Phase 5) — deploy the improved configuration.
+   3. **Done for now** — keep experimenting with the Search Builder UI.
+- If the user declines evaluation or declines to restart, proceed to Phase 5.
+
+### Phase 5: Deploy to Amazon OpenSearch Service (optional)
+- After successful local execution, offer to deploy the search strategy to Amazon OpenSearch Service.
+- **Important**: Before starting Phase 5, guide the user to add AWS MCP servers to the power's mcp.json configuration (see AWS Setup in Onboarding section). Verify the servers are configured before proceeding.
+- Call `prepare_aws_deployment()` to get the deployment context. This returns:
+  - `deployment_target`: "serverless" or "domain" (determined automatically from search strategy)
+  - `search_strategy`: the detected strategy (bm25, neural_sparse, dense_vector, hybrid, agentic)
+  - `steering_files`: ordered list of steering files to follow
+  - `local_config`: extracted configuration from local setup (text fields, sample doc, preferences)
+  - `required_mcp_servers`: MCP servers that must be connected
+  - `state_file_template`: JSON template for `.opensearch-deploy-state.json`
+- Write the `state_file_template` to `.opensearch-deploy-state.json` in the project root.
+- Verify all `required_mcp_servers` are connected before proceeding.
+- Follow each steering file from `steering_files` in order:
+  - **Serverless track**: `serverless-01-provision.md` → `serverless-02-deploy-search.md`
+  - **Domain track**: `domain-01-provision.md` → `domain-02-deploy-search.md` → `domain-03-agentic-setup.md` (agentic only)
+- Between each steering file, read `.opensearch-deploy-state.json` for accumulated state (ARNs, IDs, endpoints).
+- After each major step, update `.opensearch-deploy-state.json` with new values as instructed by the steering file.
+- For cost, security, or HA questions, refer to `aws-reference.md`.
+- Provide the user with AWS endpoint URLs and access instructions.
+
+### Post-Execution
+- After successful execution completion, explicitly tell the user
+  how to access the UI using the returned `ui_access` URLs.
+- `cleanup()` removes test documents and clears any in-process cluster credentials when the user explicitly asks.
+- After Phase 5 AWS deployment, provide AWS endpoint URLs and configuration details.
+- After Phase 5, call `connect_search_ui_to_endpoint(endpoint, port, use_ssl, username, password, index_name)` to switch the Search UI to the AWS endpoint so the user can test searches against the cloud deployment directly from the same UI. The UI header badge will update to show "AWS Cloud" with a green connection dot.
+
+## Available Tools
+
+### High-Level Workflow Tools
+| Tool | Phase | Description |
+|------|-------|-------------|
+| `load_sample` | 1 | Load a sample document (built-in, file, URL, index, or paste) |
+| `set_preferences` | 2 | Set query pattern, deployment preferences |
+| `start_planning` | 3 | Start planning; may return `manual_planning_required` with planner prompt/input |
+| `refine_plan` | 3 | Send user feedback to refine the proposal |
+| `finalize_plan` | 3 | Finalize the plan when the user confirms |
+| `set_plan_from_planning_complete` | 3 | Parse/store finalized planner output for manual planning mode |
+| `preflight_check_cluster` | 4 | Check if an OpenSearch cluster is already running; accepts optional `localhost_auth_mode`/`localhost_auth_username`/`localhost_auth_password` for custom creds |
+| `execute_plan` | 4 | Execute the plan (create index, models, pipelines, UI) |
+| `set_execution_from_execution_report` | 4 | Parse/store finalized worker output for manual execution mode |
+| `retry_execution` | 4 | Resume from a failed execution step |
+| `start_evaluation` | 4.5 | Evaluate search quality; may return `manual_evaluation_required` with evaluator prompt |
+| `set_evaluation_from_evaluation_complete` | 4.5 | Parse/store evaluator output for manual evaluation mode |
+| `prepare_aws_deployment` | 5 | Get deployment target, local config, steering file list, and state template for AWS deployment |
+| `connect_search_ui_to_endpoint` | 5 | Switch Search UI to query an Amazon OpenSearch Service endpoint after deployment |
+| `set_search_ui_comparison_mode` | 4.5 | Enable side-by-side comparison of two indices in the Search UI |
+| `clear_search_ui_comparison_mode` | 4.5 | Disable comparison mode in the Search UI |
+| `cleanup` | Post | Remove test documents and clear session credentials on user request |
+
+### Knowledge Tools
+| Tool | Description |
+|------|-------------|
+| `read_knowledge_base` | Read the OpenSearch Semantic Search Guide |
+| `read_dense_vector_models` | Read the Dense Vector Models Guide |
+| `read_sparse_vector_models` | Read the Sparse Vector Models Guide |
+| `search_opensearch_org` | Search opensearch.org documentation |
+
+## Rules
+- **CRITICAL**: You MUST ask exactly ONE preference question per message. Do NOT batch multiple preference questions together. Wait for the user's answer before asking the next question.
+- Never skip Phase 1. A sample document is mandatory before planning.
+- Prefer planner tools for plan generation.
+- If `manual_planning_required=true`, use the returned planner prompt/input and persist via `set_plan_from_planning_complete(...)`.
+- Show the planner's proposal text to the user verbatim; do not summarize it away.
+- For preference questions, ask one question per turn and use user-input UI fixed options. Accept either a number or free-text answer.
+- Do not ask redundant clarification questions for items already inferred from the sample data.
+- Phase 4.5 (evaluation) is optional and should only be offered after successful Phase 4 execution. Always proactively mention it is available.
+- If evaluation suggests improvements, offer to restart from Phase 3 with a new index name — do not overwrite the original index. Enable comparison mode after the improved index is built.
+- Phase 5 (AWS deployment) is optional and should only be offered after successful Phase 4 execution.
+
+## Prerequisites
+- Python 3.11+, uv, and Docker are required for Phases 1-4 (local development)
+- AWS credentials and MCP servers are required for Phase 5 (AWS deployment) - see AWS Setup section
+- See the [Onboarding](#onboarding) section for detailed setup instructions
+
+## Licenses
+
+This power integrates with the following MCP servers:
+
+- **opensearch-launchpad** (Apache-2.0 license) — core MCP server for the local workflow (Phases 1–4)
+- **awslabs.aws-api-mcp-server** (Apache-2.0 license) — optional, used in Phase 5 for AWS API operations
+- **aws-knowledge-mcp-server** (Apache-2.0 license) — optional, used in Phase 5 for AWS documentation lookups
+- **opensearch-mcp-server-py** (Apache-2.0 license) — optional, used in Phase 5 for direct OpenSearch cluster operations
+
+Steering files included in this power are original content licensed under Apache-2.0.
+
+## Telemetry
+
+This power does not collect, transmit, or store any client-side telemetry, analytics, or usage data. No data is sent to external services by the power itself.
+
+## Privacy
+
+- Session state (sample documents, preferences, auth mode) is persisted locally to `~/.opensearch_orchestrator/mcp_state.json` for session continuity across MCP reconnects. This file stays on your machine and is never transmitted externally. Passwords are not persisted to this file.
+- When using the `search_opensearch_org` tool, queries are sent to DuckDuckGo to search opensearch.org documentation.
+- When using `source_type="url"` in `load_sample`, the provided URL is fetched directly. No URLs are logged or stored beyond the local session state.

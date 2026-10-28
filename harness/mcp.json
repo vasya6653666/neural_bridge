@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "harness": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e",
+        "HARNESS_API_KEY",
+        "-e",
+        "HARNESS_BASE_URL",
+        "-e",
+        "HARNESS_DEFAULT_ORG_ID",
+        "-e",
+        "HARNESS_DEFAULT_PROJECT_ID",
+        "harness/mcp-server:latest",
+        "stdio",
+        "--read-only",
+        "--toolsets",
+        "pipelines,logs"
+      ],
+      "env": {
+        "HARNESS_API_KEY": "${HARNESS_API_KEY}",
+        "HARNESS_DEFAULT_ORG_ID": "${HARNESS_DEFAULT_ORG_ID}",
+        "HARNESS_DEFAULT_PROJECT_ID": "${HARNESS_DEFAULT_PROJECT_ID}"
+      }
+    }
+  }
+}

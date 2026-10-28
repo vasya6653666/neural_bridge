@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "checkmarx": {
+      "url": "<Checkmarx_one_base_url>/api/security-mcp/mcp",
+      "headers": {
+        "cx-origin": "NeuralBridge",
+        "Authorization": "<Checkmarx_one_API_key>"
+      }
+    }
+  }
+}

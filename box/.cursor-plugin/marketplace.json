@@ -1,0 +1,13 @@
+{
+  "name": "box-plugin-marketplace",
+  "owner": {
+    "name": "Box"
+  },
+  "plugins": [
+    {
+      "name": "box",
+      "source": "./",
+      "description": "Search, read, and manage Box content via the Box MCP server, and build Box Platform integrations. Includes content workflows, shared links, collaborations, webhooks, metadata, Box AI, and MCP tool access."
+    }
+  ]
+}

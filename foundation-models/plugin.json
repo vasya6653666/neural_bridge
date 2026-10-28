@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "foundation-models",
+  "version": "0.1.3",
+  "description": "Write correct Apple Foundation Models code for iOS/macOS 26–27, grounded in the SDK installed on this machine rather than in model memory.",
+  "author": {
+    "name": "Artem Novichkov",
+    "email": "mail@artemnovichkov.com",
+    "url": "https://github.com/artemnovichkov"
+  },
+  "homepage": "https://github.com/artemnovichkov/foundation-models-plugin",
+  "repository": "https://github.com/artemnovichkov/foundation-models-plugin",
+  "license": "MIT",
+  "keywords": [
+    "swift",
+    "ios",
+    "apple",
+    "foundation-models",
+    "apple-intelligence",
+    "on-device",
+    "llm",
+    "xcode"
+  ]
+}
