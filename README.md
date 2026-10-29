@@ -62,6 +62,9 @@ Powers для NeuralBridge IDE. Одна папка — один power, имя �
 | [`mongodb`](mongodb/) | MongoDB Inc. | Apache-2.0 |
 | [`n8n`](n8n/) | n8n | Apache-2.0 |
 | [`native-security`](native-security/) | Native Security | MIT |
+| [`nb-infra-as-code`](nb-infra-as-code/) | NeuralBridge | Apache-2.0 |
+| [`nb-power-builder`](nb-power-builder/) | NeuralBridge | Apache-2.0 |
+| [`nb-support`](nb-support/) | NeuralBridge | Apache-2.0 |
 | [`netlify-deployment`](netlify-deployment/) | Netlify | MIT |
 | [`nova-act`](nova-act/) | Amazon | Apache-2.0 |
 | [`ona`](ona/) | Ona | MIT |

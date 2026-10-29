@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-power-builder",
+  "displayName": "NB Power Builder",
+  "version": "1.0.0",
+  "description": "Write your own power for NeuralBridge IDE in the Agent Plugins format: plugin.json, skills, MCP server settings, testing and publishing.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "power",
+    "build a power",
+    "create power",
+    "agent plugins",
+    "plugin.json",
+    "skill",
+    "mcp.json",
+    "POWER.md"
+  ]
+}

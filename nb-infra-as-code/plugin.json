@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-infra-as-code",
+  "displayName": "NB Infra as Code",
+  "version": "1.0.0",
+  "description": "Work on Terraform and OpenTofu projects: check formatting, validate, plan with a readable summary of what will be created, changed or destroyed, and apply a plan the user has reviewed.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "terraform",
+    "opentofu",
+    "tofu",
+    "infrastructure as code",
+    "iac",
+    "terraform plan",
+    "terraform validate",
+    "hcl",
+    "tfvars",
+    "modules"
+  ]
+}

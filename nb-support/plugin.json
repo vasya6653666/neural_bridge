@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-support",
+  "displayName": "NB Support",
+  "version": "1.0.0",
+  "description": "Answers questions about NeuralBridge IDE itself: signing in, accounts and projects, data and telemetry settings, Powers, MCP servers, tool approvals, specs, skills, steering, hooks and the cloud config.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "neuralbridge",
+    "neuralbridge ide",
+    "ide help",
+    "sign in",
+    "telemetry",
+    "privacy",
+    "powers",
+    "mcp",
+    "cloud config",
+    "support"
+  ]
+}
