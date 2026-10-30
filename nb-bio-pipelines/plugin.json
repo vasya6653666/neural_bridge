@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-bio-pipelines",
+  "displayName": "NB Bio Pipelines",
+  "version": "1.0.0",
+  "description": "Work on bioinformatics pipelines with Nextflow, WDL (miniwdl) and Snakemake: find installed tools and pipelines, lint, dry-run a plan that shows what will run and what will be downloaded, start a reviewed run in the background, follow its progress and stop it.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "bioinformatics",
+    "nextflow",
+    "snakemake",
+    "wdl",
+    "miniwdl",
+    "workflow",
+    "pipeline",
+    "genomics",
+    "dry run",
+    "nextflow lint",
+    "snakefile"
+  ]
+}

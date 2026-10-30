@@ -63,6 +63,7 @@ Powers для NeuralBridge IDE. Одна папка — один power, имя �
 | [`n8n`](n8n/) | n8n | Apache-2.0 |
 | [`native-security`](native-security/) | Native Security | MIT |
 | [`nb-arm64`](nb-arm64/) | NeuralBridge | Apache-2.0 |
+| [`nb-bio-pipelines`](nb-bio-pipelines/) | NeuralBridge | Apache-2.0 |
 | [`nb-ci-pipelines`](nb-ci-pipelines/) | NeuralBridge | Apache-2.0 |
 | [`nb-code-modernization`](nb-code-modernization/) | NeuralBridge | Apache-2.0 |
 | [`nb-containers`](nb-containers/) | NeuralBridge | Apache-2.0 |
