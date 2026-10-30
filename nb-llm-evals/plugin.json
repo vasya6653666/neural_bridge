@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-llm-evals",
+  "displayName": "NB LLM Evals",
+  "version": "1.0.0",
+  "description": "Test prompts and LLM apps with promptfoo: find and validate eval configs, see how many model calls a run will make before it starts, run a reviewed plan and read pass rates, costs and failures.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "promptfoo",
+    "llm evals",
+    "evaluation",
+    "prompt testing",
+    "prompt engineering",
+    "assertions",
+    "llm-rubric",
+    "regression testing",
+    "test cases",
+    "model comparison"
+  ]
+}

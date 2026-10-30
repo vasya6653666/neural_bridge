@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-arm64",
+  "displayName": "NB Arm64",
+  "version": "1.0.0",
+  "description": "Move code and container images to ARM64 (aarch64) servers: find x86-only code and Dockerfile settings, check which platforms base images provide, build images for linux/arm64 with docker buildx and confirm they start as aarch64.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "arm64",
+    "aarch64",
+    "arm",
+    "multi-arch",
+    "multi-platform",
+    "docker buildx",
+    "linux/arm64",
+    "qemu",
+    "cross-compile",
+    "neon",
+    "porting"
+  ]
+}

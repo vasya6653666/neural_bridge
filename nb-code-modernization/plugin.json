@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-code-modernization",
+  "displayName": "NB Code Modernization",
+  "version": "1.0.0",
+  "description": "Modernize Java and Kotlin projects with OpenRewrite recipes through the project's Maven or Gradle build: upgrade the Java version, Spring Boot, JUnit 4 to 5, javax to jakarta and logging libraries, preview every change as a patch and apply only the patch the user has reviewed.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "openrewrite",
+    "java",
+    "kotlin",
+    "maven",
+    "gradle",
+    "code modernization",
+    "migration",
+    "refactoring",
+    "spring boot upgrade",
+    "junit 5",
+    "jakarta"
+  ]
+}

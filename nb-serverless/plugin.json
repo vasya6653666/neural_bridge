@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-serverless",
+  "displayName": "NB Serverless",
+  "version": "1.0.0",
+  "description": "Work with Knative services and OpenFaaS functions through kn and faas-cli: inspect services, revisions, functions and logs, build functions locally, and deploy or remove them only after the user has reviewed a plan. Environment values and credentials stay hidden.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "serverless",
+    "knative",
+    "kn",
+    "openfaas",
+    "faas-cli",
+    "functions",
+    "knative serving",
+    "stack.yaml",
+    "revisions",
+    "scale to zero"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-database-migrations",
+  "displayName": "NB Database Migrations",
+  "version": "1.0.0",
+  "description": "Work on database schema migrations with Flyway, Liquibase or Atlas: see which migrations are applied and pending, validate them, review the exact SQL with warnings about destructive statements, and apply only a plan the user has approved.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "database migrations",
+    "schema migrations",
+    "flyway",
+    "liquibase",
+    "atlas",
+    "sql",
+    "changelog",
+    "migrate",
+    "postgresql",
+    "mysql"
+  ]
+}

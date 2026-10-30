@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-security-scanning",
+  "displayName": "NB Security Scanning",
+  "version": "1.0.0",
+  "description": "Scan the project with the security tools installed on your machine: Trivy for vulnerable dependencies, misconfigurations and container images, Semgrep for risky code patterns, Gitleaks for secrets in files and git history. Findings come with file, line and fix version; secret values are never shown.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "security",
+    "vulnerability scanning",
+    "trivy",
+    "semgrep",
+    "gitleaks",
+    "sast",
+    "secret scanning",
+    "cve",
+    "dependencies",
+    "container image",
+    "misconfiguration"
+  ]
+}

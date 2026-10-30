@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-local-models",
+  "displayName": "NB Local Models",
+  "version": "1.0.0",
+  "description": "Use the models you run yourself with Ollama or llama.cpp llama-server: see what is installed and loaded, inspect a model, send a prompt, compute embeddings, free memory, and download or delete Ollama models only after you approve a plan.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "local models",
+    "ollama",
+    "llama.cpp",
+    "llama-server",
+    "gguf",
+    "llm",
+    "embeddings",
+    "self-hosted",
+    "offline",
+    "model management"
+  ]
+}

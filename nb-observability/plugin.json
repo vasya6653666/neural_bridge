@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-observability",
+  "displayName": "NB Observability",
+  "version": "1.0.0",
+  "description": "Investigate production from the IDE: query Prometheus metrics, search Loki logs, open Grafana dashboards and read Alertmanager alerts, all read-only over their HTTP APIs.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "observability",
+    "prometheus",
+    "promql",
+    "loki",
+    "logql",
+    "grafana",
+    "alertmanager",
+    "metrics",
+    "logs",
+    "alerts",
+    "monitoring"
+  ]
+}

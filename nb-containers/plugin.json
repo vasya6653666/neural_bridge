@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-containers",
+  "displayName": "NB Containers",
+  "version": "1.0.0",
+  "description": "Work with Docker or Podman from the IDE: list containers and images, read logs, inspect with secrets hidden, check Compose files, build images, and run Compose up/down or removals only after the user has reviewed a plan.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "docker",
+    "podman",
+    "containers",
+    "docker compose",
+    "compose",
+    "dockerfile",
+    "container logs",
+    "images",
+    "build image",
+    "containerfile"
+  ]
+}

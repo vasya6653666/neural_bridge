@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-ci-pipelines",
+  "displayName": "NB CI Pipelines",
+  "version": "1.0.0",
+  "description": "Work on CI pipelines from the IDE: lint GitHub Actions workflows with actionlint, validate .gitlab-ci.yml on your GitLab server with glab, list workflow jobs and dry-run them with act, and run a job locally in Docker only after the user has reviewed the plan.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "ci",
+    "ci/cd",
+    "pipelines",
+    "github actions",
+    "workflows",
+    "actionlint",
+    "act",
+    "gitlab ci",
+    "glab",
+    ".gitlab-ci.yml",
+    "lint"
+  ]
+}

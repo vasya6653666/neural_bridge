@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nb-workflow-orchestration",
+  "displayName": "NB Workflow Orchestration",
+  "version": "1.0.0",
+  "description": "Work with Temporal and Argo Workflows through their CLIs: find stuck or failed executions, read a payload-free event history, node errors and logs, lint manifests, and start, signal, submit, stop or retry workflows only after the user has reviewed a plan.",
+  "author": {
+    "name": "NeuralBridge",
+    "url": "https://neuralbridge.ru"
+  },
+  "homepage": "https://neuralbridge.ru",
+  "repository": "https://github.com/vasya6653666/neural_bridge",
+  "license": "Apache-2.0",
+  "keywords": [
+    "workflow orchestration",
+    "temporal",
+    "temporal cli",
+    "argo workflows",
+    "argo cli",
+    "durable execution",
+    "event history",
+    "task queue",
+    "workflow templates",
+    "pipelines"
+  ]
+}

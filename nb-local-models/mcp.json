@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "local-models": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@neuralbridge/local-models-mcp@1.0.0"]
+    }
+  }
+}

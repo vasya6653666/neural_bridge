@@ -62,9 +62,21 @@ Powers для NeuralBridge IDE. Одна папка — один power, имя �
 | [`mongodb`](mongodb/) | MongoDB Inc. | Apache-2.0 |
 | [`n8n`](n8n/) | n8n | Apache-2.0 |
 | [`native-security`](native-security/) | Native Security | MIT |
+| [`nb-arm64`](nb-arm64/) | NeuralBridge | Apache-2.0 |
+| [`nb-ci-pipelines`](nb-ci-pipelines/) | NeuralBridge | Apache-2.0 |
+| [`nb-code-modernization`](nb-code-modernization/) | NeuralBridge | Apache-2.0 |
+| [`nb-containers`](nb-containers/) | NeuralBridge | Apache-2.0 |
+| [`nb-database-migrations`](nb-database-migrations/) | NeuralBridge | Apache-2.0 |
 | [`nb-infra-as-code`](nb-infra-as-code/) | NeuralBridge | Apache-2.0 |
+| [`nb-kubernetes`](nb-kubernetes/) | NeuralBridge | Apache-2.0 |
+| [`nb-llm-evals`](nb-llm-evals/) | NeuralBridge | Apache-2.0 |
+| [`nb-local-models`](nb-local-models/) | NeuralBridge | Apache-2.0 |
+| [`nb-observability`](nb-observability/) | NeuralBridge | Apache-2.0 |
 | [`nb-power-builder`](nb-power-builder/) | NeuralBridge | Apache-2.0 |
+| [`nb-security-scanning`](nb-security-scanning/) | NeuralBridge | Apache-2.0 |
+| [`nb-serverless`](nb-serverless/) | NeuralBridge | Apache-2.0 |
 | [`nb-support`](nb-support/) | NeuralBridge | Apache-2.0 |
+| [`nb-workflow-orchestration`](nb-workflow-orchestration/) | NeuralBridge | Apache-2.0 |
 | [`netlify-deployment`](netlify-deployment/) | Netlify | MIT |
 | [`nova-act`](nova-act/) | Amazon | Apache-2.0 |
 | [`ona`](ona/) | Ona | MIT |
